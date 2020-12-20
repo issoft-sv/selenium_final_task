@@ -1,50 +1,44 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage extends HomePage {
+public class LoginPage extends BasePage {
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
-    private By emailFieldForSignUp = By.xpath("//input[@id='email_create']");
-    private By createAccountButton = By.xpath("//button[@id='SubmitCreate']");
-    private By emailFieldForSignIn = By.xpath("//input[@id='email']");
-    private By passwordFieldForSignIn = By.xpath("//input[@id='passwd']");
-    private By signInButton = By.xpath("//button[@id='SubmitLogin']");
-    private By invalidEmailError = By.xpath("//li[text()='Invalid email address.']");
-    private By existingEmailError = By.xpath("//li[contains(text(),'already been registered')]");
-    private By emailRequiredError = By.xpath("//li[text()='An email address required.']");
-    private By passowrdRequiredError = By.xpath("//li[text()='Password is required.']");
+    @FindBy(id = "email_create")
+    private WebElement emailFieldForSignUp;
+    @FindBy(id = "SubmitCreate")
+    private WebElement createAccountButton;
+    @FindBy(id = "email")
+    private WebElement emailFieldForSignIn;
+    @FindBy(id = "passwd")
+    private WebElement passwordFieldForSignIn;
+    @FindBy(id = "SubmitLogin")
+    private WebElement signInButton;
+    @FindBy(id = "create_account_error")
+    private WebElement createAccountError;
 
     public AccountCreationPage submitEmailForSignUp (String email) {
-        driver.findElement(emailFieldForSignUp).sendKeys(email);
-        driver.findElement(createAccountButton).click();
-        return new AccountCreationPage(driver);
+        emailFieldForSignUp.sendKeys(email);
+        createAccountButton.click();
+        return PageFactory.initElements(driver, AccountCreationPage.class);
     }
 
     public MyAccountPage signIn (String email, String pwd) {
-        driver.findElement(emailFieldForSignIn).sendKeys(email);
-        driver.findElement(passwordFieldForSignIn).sendKeys(pwd);
-        driver.findElement(signInButton).click();
-        return new MyAccountPage(driver);
+        emailFieldForSignIn.sendKeys(email);
+        passwordFieldForSignIn.sendKeys(pwd);
+        signInButton.click();
+        return PageFactory.initElements(driver, MyAccountPage .class);
     }
 
-    public Boolean isInvalidEmailErrorDisplayed () {
-        return driver.findElements(invalidEmailError).size() > 0;
-    }
-
-    public Boolean isExistingEmailErrorDisplayed () {
-        return driver.findElements(existingEmailError).size() > 0;
-    }
-
-    public Boolean isEmailRequiredErrorDisplayed () {
-        return driver.findElements(emailRequiredError).size() > 0;
-    }
-
-    public Boolean isPassowrdRequiredErrorDisplayed () {
-        return driver.findElements(passowrdRequiredError).size() > 0;
+    public String getErrorText () {
+        String dd = createAccountError.getText();
+        return dd;
     }
 }

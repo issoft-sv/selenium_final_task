@@ -7,24 +7,19 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import tests.BaseTest;
 
 import java.io.ByteArrayInputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class Listener implements TestWatcher {
+
+    private Capabilities cap = ((RemoteWebDriver) RunLocation.getRunLocationDriver()).getCapabilities();
+
     @Override
     public void testFailed(ExtensionContext context, Throwable cause) {
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-        String strDate = dateFormat.format(date);
-        Capabilities cap = ((RemoteWebDriver) BaseTest.getDriver()).getCapabilities();
-        Allure.addAttachment("Date&Time", strDate);
+
+        Allure.addAttachment("Date&Time", Utilities.getActualDate());
         Allure.addAttachment("Browser", cap.getBrowserName());
         Allure.addAttachment("Platform", cap.getPlatformName().toString());
-        Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot)BaseTest.getDriver()).getScreenshotAs(OutputType.BYTES)));
+        Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) RunLocation.getRunLocationDriver()).getScreenshotAs(OutputType.BYTES)));
     }
 }

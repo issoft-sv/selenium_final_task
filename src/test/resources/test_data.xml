@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<testdata>
+    <logindata>
+        <validemail>sel_test@mailinator.com</validemail>
+        <validpassword>12345</validpassword>
+    </logindata>
+    <expected_data>
+        <my_account_tab>"My account - My Store"</my_account_tab>
+        <email_required>An email address required.</email_required>
+        <password_required>Password is required.</password_required>
+        <invalid_email>Invalid email address.</invalid_email>
+        <wishlist_manual>my_wishlist</wishlist_manual>
+        <wishlist_auto>My wishlist</wishlist_auto>
+    </expected_data>
+</testdata>

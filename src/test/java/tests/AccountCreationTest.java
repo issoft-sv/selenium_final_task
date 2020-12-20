@@ -1,43 +1,46 @@
 package tests;
 
-import org.junit.jupiter.api.Assertions;
+import helpers.Utilities;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import org.junit.jupiter.api.Test;
 import pages.AccountCreationPage;
+import ru.yandex.qatools.allure.annotations.TestCaseId;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AccountCreationTest extends BaseTest{
 
-    private String randomDate;
+    private String randomDate = Utilities.getActualDate();
 
+    @Feature("Account creation")
+    @Description("Verify it's impossible to register new user")
+    @TestCaseId("21")
     @Test
     public void regWithValidValues () {
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
-        randomDate = dateFormat.format(date).replace(":", "");
+        expected = Utilities.getValueFromJsonConfig("my_account_tab", data_file);
         loginPage.submitEmailForSignUp(randomDate + "@mailinator.com").createAccount("fn", "ln", randomDate, randomDate, randomDate, "12345", "+375291111111", randomDate);
-        Assertions.assertEquals(loginPage.getTabName(), "My account - My Store");
+        assertEquals(expected, loginPage.getTabName());
     }
 
+    @Feature("Account creation")
+    @Description("Verify it's impossible to register new user with invalid email")
+    @TestCaseId("22")
     @Test
     public void regWithInvalidEmail () {
+        expected = Utilities.getValueFromJsonConfig("invalid_email", data_file);
         loginPage.submitEmailForSignUp("@mailinator.com");
-        Assertions.assertTrue(loginPage.isInvalidEmailErrorDisplayed());
+        assertEquals(expected, loginPage.getErrorText());
     }
 
-    @Test
-    public void regWithExistingEmail () {
-        loginPage.submitEmailForSignUp("sel_test@mailinator.com");
-        Assertions.assertTrue(loginPage.isExistingEmailErrorDisplayed());
-    }
-
+    @Feature("Account creation")
+    @Description("Verify it's impossible to register new user with empty name field")
+    @TestCaseId("23")
     @Test
     public void regWithEmptyNameField () {
         AccountCreationPage accountCreationPage = loginPage.submitEmailForSignUp(randomDate + "@mailinator.com");
-        accountCreationPage.createAccount(" ", "lastname", randomDate, randomDate, randomDate, "12345", "+375291111111", randomDate);
-        Assertions.assertTrue(accountCreationPage.isFirstnameRequiredErrorDisplayed());
+        accountCreationPage.createAccount("", "lastname", randomDate, randomDate, randomDate, "12345", "+375291111111", randomDate);
+        assertTrue(accountCreationPage.getErrorText().contains("firstname is required."));
     }
 }

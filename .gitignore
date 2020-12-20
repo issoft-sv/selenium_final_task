@@ -3,6 +3,7 @@
 *.iml
 target/
 *.log
+*.exe
 src/test/screenshot/
 pom.xml.tag
 pom.xml.releaseBackup

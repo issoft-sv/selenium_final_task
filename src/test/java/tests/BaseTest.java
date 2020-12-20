@@ -1,37 +1,38 @@
 package tests;
 
+import drivers.LocalDriver;
 import helpers.Listener;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import helpers.RunLocation;
+import helpers.Utilities;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.LoginPage;
 
 import java.time.Duration;
 
 @ExtendWith(Listener.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BaseTest {
 
-    private static WebDriver driver;
-    private static WebDriverWait wait;
-    protected static LoginPage loginPage;
-
-    public static WebDriver getDriver() {
-        return driver;
-    }
+    private WebDriver driver;
+    private WebDriverWait wait;
+    protected LoginPage loginPage;
+    protected String data_file = "test_data.xml";
+    protected String email = Utilities.getValueFromJsonConfig("validemail", data_file);
+    protected String password = Utilities.getValueFromJsonConfig("validpassword", data_file);
+    protected String expected;
 
     @BeforeAll
-    public static void start () {
-        driver = new ChromeDriver();
+    public void start () {
+        driver = RunLocation.getRunLocationDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.manage().window().maximize();
-        loginPage = new LoginPage(driver);
+        loginPage = PageFactory.initElements(driver, LoginPage.class);
     }
 
     @BeforeEach
@@ -46,8 +47,9 @@ public class BaseTest {
     }
 
     @AfterAll
-    public static void finish () {
+    public void finish () {
         driver.quit();
         driver = null;
+        if ((Utilities.getValueFromJsonConfig("run_location", "config.xml")).equals("local")) LocalDriver.deleteDriver();
     }
 }

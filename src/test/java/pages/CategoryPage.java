@@ -2,19 +2,23 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 
-public class CategoryPage extends HomePage{
+public class CategoryPage extends BasePage {
 
     public CategoryPage(WebDriver driver) {
         super(driver);
     }
 
     private By addToCartButton;
-    private By continueShoppingButton = By.xpath("//span[@title='Continue shopping']");
-    private By productBlock = By.xpath("//li[contains(@class,'ajax_block_product')]");
+    @FindBy(xpath = "//span[@title='Continue shopping']")
+    private WebElement continueShoppingButton;
+    private By productBlock;
     private By addToWishlistButton;
-    private By closeNotificationButton = By.xpath("//a[@title='Close']");
+    @FindBy(xpath = "//a[@title='Close']")
+    private WebElement closeNotificationButton;
 
     private void navigateToProduct (int productNumber ) {
         Actions action = new Actions(driver);
@@ -30,7 +34,7 @@ public class CategoryPage extends HomePage{
     }
 
     public CategoryPage closeNotificationOfWishlist () {
-        driver.findElement(closeNotificationButton).click();
+        closeNotificationButton.click();
         return this;
     }
 
@@ -42,7 +46,7 @@ public class CategoryPage extends HomePage{
     }
 
     public CategoryPage closeNotificationOfCart () {
-        driver.findElement(continueShoppingButton).click();
+        continueShoppingButton.click();
         return this;
     }
 }

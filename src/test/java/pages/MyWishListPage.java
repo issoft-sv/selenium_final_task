@@ -3,20 +3,29 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-public class MyWishListPage extends HomePage{
+import java.util.List;
+
+public class MyWishListPage extends BasePage {
 
     public MyWishListPage(WebDriver driver) {
         super(driver);
     }
 
     private By wishlistRecord;
-    private By wishlistTable = By.xpath("//table");
-    private By viewProductsButton = By.xpath("//a[contains(text(),'View')]");
-    private By productImage = By.xpath("//div[@class='product_image']");
-    private By wishlistNameField = By.xpath("//input[@id='name']");
-    private By wishlistSaveButton = By.xpath("//button[@id='submitWishlist']");
-    private By removeWishlistButton = By.xpath("//i[@class='icon-remove']");
+    @FindBy(xpath = "//table")
+    private List<WebElement> wishlistTable;
+    @FindBy(xpath = "//a[contains(text(),'View')]")
+    private WebElement viewProductsButton;
+    @FindBy(className = "product_image")
+    private List<WebElement> productImage;
+    @FindBy(id = "name")
+    private WebElement wishlistNameField;
+    @FindBy(id = "submitWishlist")
+    private WebElement wishlistSaveButton;
+    @FindBy(className = "icon-remove")
+    private List<WebElement> removeWishlistButton;
 
     public Boolean isWishlistCreated (String wishlistName) {
         wishlistRecord = By.xpath(String.format("//table//a[contains(text(),'%s')]", wishlistName));
@@ -25,24 +34,24 @@ public class MyWishListPage extends HomePage{
     }
 
     public Boolean doWishlistsExist () {
-        Boolean doExist = driver.findElements(wishlistTable).size() > 0;
+        Boolean doExist = wishlistTable.size() > 0;
         return doExist;
     }
 
     public Boolean isWishlistNotEmpty () {
-        driver.findElement(viewProductsButton).click();
-        Boolean notEmpty = driver.findElements(productImage).size() > 0;
+        viewProductsButton.click();
+        Boolean notEmpty = productImage.size() > 0;
         return notEmpty;
     }
 
     public MyWishListPage createWishlist (String wishlistName) {
-        driver.findElement(wishlistNameField).sendKeys(wishlistName);
-        driver.findElement(wishlistSaveButton).click();
+        wishlistNameField.sendKeys(wishlistName);
+        wishlistSaveButton.click();
         return this;
     }
 
     public MyWishListPage removeAllWishlists () {
-        for (WebElement we : driver.findElements(removeWishlistButton)) {
+        for (WebElement we : removeWishlistButton) {
             we.click();
             driver.switchTo().alert().accept();
         }
