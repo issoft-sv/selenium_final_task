@@ -3,7 +3,6 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class AccountCreationPage extends BasePage {
 
@@ -54,7 +53,7 @@ public class AccountCreationPage extends BasePage {
         mobilePhoneField.sendKeys(mobilephone);
         addressAliasField.sendKeys(alias);
         registerButton.click();
-        return PageFactory.initElements(driver, MyAccountPage.class);
+        return new MyAccountPage(driver);
     }
 
     public String getErrorText () {

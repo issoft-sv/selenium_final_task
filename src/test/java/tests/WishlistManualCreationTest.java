@@ -1,6 +1,5 @@
 package tests;
 
-import helpers.Utilities;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.Test;
@@ -10,6 +9,7 @@ import ru.yandex.qatools.allure.annotations.TestCaseId;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 public class WishlistManualCreationTest extends BaseTest{
 
     @Feature("Login")
@@ -17,7 +17,7 @@ public class WishlistManualCreationTest extends BaseTest{
     @TestCaseId("51")
     @Test
     public void WishlistManualCreationTest () {
-        expected = Utilities.getValueFromJsonConfig("wishlist_manual", data_file);
+        expected = data.getWishlist_manual();
         MyWishListPage myWishListPage = loginPage.signIn(email, password).getMyWishListPage();
         if (myWishListPage.doWishlistsExist()) myWishListPage.removeAllWishlists();
         myWishListPage.createWishlist(expected);

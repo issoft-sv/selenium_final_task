@@ -1,0 +1,14 @@
+{
+   "validemail":"sel_test@mailinator.com",
+   "validpassword":"12345",
+   "my_account_tab":"My account - My Store",
+   "email_required":"An email address required.",
+   "password_required":"Password is required.",
+   "invalid_email":"Invalid email address.",
+   "wishlist_manual":"my_wishlist",
+   "wishlist_auto":"My wishlist",
+   "browser":"chrome",
+   "run_location":"local",
+   "grid_host": "localhost",
+   "grid_port": "4444"
+}

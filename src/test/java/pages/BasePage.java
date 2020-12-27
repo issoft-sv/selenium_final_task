@@ -10,6 +10,7 @@ public class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath = "//div[@id='block_top_menu']/ul/li/a[text()='Dresses']")
@@ -23,18 +24,18 @@ public class BasePage {
 
     public CategoryPage getDressesCategory () {
         dressesButton.click();
-        return PageFactory.initElements(driver, CategoryPage.class);
+        return new CategoryPage(driver);
     }
 
     public MyAccountPage getMyAccountPage () {
         myAccountButton.click();
-        return PageFactory.initElements(driver, MyAccountPage.class);
+        return new MyAccountPage(driver);
     }
 
 
     public CartPage getCartPage () {
         cartButton.click();
-        return PageFactory.initElements(driver, CartPage.class);
+        return new CartPage(driver);
     }
 
     public String getTabName () {
@@ -43,6 +44,6 @@ public class BasePage {
 
     public LoginPage signOut () {
         signOutButton.click();
-        return PageFactory.initElements(driver, LoginPage.class);
+        return new LoginPage(driver);
     }
 }

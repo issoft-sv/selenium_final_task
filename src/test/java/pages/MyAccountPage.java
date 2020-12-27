@@ -3,7 +3,6 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class MyAccountPage extends BasePage {
 
@@ -16,7 +15,7 @@ public class MyAccountPage extends BasePage {
 
     public MyWishListPage getMyWishListPage () {
         myWishListsButton.click();
-        return PageFactory.initElements(driver, MyWishListPage.class);
+        return new MyWishListPage(driver);
     }
 
 

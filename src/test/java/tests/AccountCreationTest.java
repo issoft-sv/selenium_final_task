@@ -19,7 +19,7 @@ public class AccountCreationTest extends BaseTest{
     @TestCaseId("21")
     @Test
     public void regWithValidValues () {
-        expected = Utilities.getValueFromJsonConfig("my_account_tab", data_file);
+        expected = data.getMy_account_tab();
         loginPage.submitEmailForSignUp(randomDate + "@mailinator.com").createAccount("fn", "ln", randomDate, randomDate, randomDate, "12345", "+375291111111", randomDate);
         assertEquals(expected, loginPage.getTabName());
     }
@@ -29,7 +29,7 @@ public class AccountCreationTest extends BaseTest{
     @TestCaseId("22")
     @Test
     public void regWithInvalidEmail () {
-        expected = Utilities.getValueFromJsonConfig("invalid_email", data_file);
+        expected = data.getInvalid_email();
         loginPage.submitEmailForSignUp("@mailinator.com");
         assertEquals(expected, loginPage.getErrorText());
     }

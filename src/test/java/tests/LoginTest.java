@@ -1,6 +1,5 @@
 package tests;
 
-import helpers.Utilities;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +16,7 @@ public class LoginTest extends BaseTest{
     @TestCaseId("11")
     @Test
     public void loginWithValidCredentials () {
-        expected = Utilities.getValueFromJsonConfig("my_account_tab", data_file);
+        expected = data.getMy_account_tab();
         loginPage.signIn(email, password);
         Assertions.assertEquals(expected, loginPage.getTabName());
     }
@@ -27,7 +26,7 @@ public class LoginTest extends BaseTest{
     @TestCaseId("12")
     @Test
     public void loginWithEmptyFields () {
-        expected = Utilities.getValueFromJsonConfig("email_required", data_file);
+        expected = data.getEmail_required();
         loginPage.signIn("", "");
         assertEquals(expected, loginPage.getErrorText());
     }
@@ -37,7 +36,7 @@ public class LoginTest extends BaseTest{
     @TestCaseId("13")
     @Test
     public void loginWithEmptyPasswordField () {
-        expected = Utilities.getValueFromJsonConfig("password_required", data_file);
+        expected = data.getPassword_required();
         loginPage.signIn(email, "");
         assertEquals(expected, loginPage.getErrorText());
     }

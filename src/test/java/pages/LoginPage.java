@@ -3,7 +3,6 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends BasePage {
 
@@ -27,18 +26,18 @@ public class LoginPage extends BasePage {
     public AccountCreationPage submitEmailForSignUp (String email) {
         emailFieldForSignUp.sendKeys(email);
         createAccountButton.click();
-        return PageFactory.initElements(driver, AccountCreationPage.class);
+        return new AccountCreationPage(driver);
     }
 
     public MyAccountPage signIn (String email, String pwd) {
         emailFieldForSignIn.sendKeys(email);
         passwordFieldForSignIn.sendKeys(pwd);
         signInButton.click();
-        return PageFactory.initElements(driver, MyAccountPage .class);
+        return new MyAccountPage(driver);
     }
 
     public String getErrorText () {
-        String dd = createAccountError.getText();
-        return dd;
+        String et = createAccountError.getText();
+        return et;
     }
 }

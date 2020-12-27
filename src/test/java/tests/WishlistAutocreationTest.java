@@ -1,6 +1,5 @@
 package tests;
 
-import helpers.Utilities;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ public class WishlistAutocreationTest extends BaseTest{
     @TestCaseId("41")
     @Test
     public void wishlistAutoCreation () {
-        expected = Utilities.getValueFromJsonConfig("wishlist_auto", data_file);
+        expected = data.getWishlist_auto();
         MyWishListPage myWishListPage = loginPage.signIn(email, password).getMyWishListPage();
         if (myWishListPage.doWishlistsExist()) myWishListPage.removeAllWishlists();
         myWishListPage.getDressesCategory().addToWishlist(1).closeNotificationOfWishlist().getMyAccountPage().getMyWishListPage();

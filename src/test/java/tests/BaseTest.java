@@ -1,15 +1,14 @@
 package tests;
 
-import drivers.LocalDriver;
+import helpers.ConfigData;
 import helpers.Listener;
-import helpers.RunLocation;
+import helpers.RunLocationDriver;
 import helpers.Utilities;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.LoginPage;
 
 import java.time.Duration;
@@ -18,19 +17,24 @@ import java.time.Duration;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BaseTest {
 
+    protected ConfigData data;
     private WebDriver driver;
-    private WebDriverWait wait;
     protected LoginPage loginPage;
-    protected String data_file = "test_data.xml";
-    protected String email = Utilities.getValueFromJsonConfig("validemail", data_file);
-    protected String password = Utilities.getValueFromJsonConfig("validpassword", data_file);
+    protected String email;
+    protected String password;
     protected String expected;
+
+    public BaseTest () {
+        data = Utilities.getConfigData();
+        email = data.getValidemail();
+        password = data.getValidpassword();
+    }
+
 
     @BeforeAll
     public void start () {
-        driver = RunLocation.getRunLocationDriver();
+        driver = RunLocationDriver.getInstance().getWebDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.manage().window().maximize();
         loginPage = PageFactory.initElements(driver, LoginPage.class);
     }
@@ -38,6 +42,7 @@ public class BaseTest {
     @BeforeEach
     public void clearStart () {
         driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+        System.out.println("Current"+Thread.currentThread().getId());
     }
     @AfterEach
     public void clearFinish () {
@@ -50,6 +55,6 @@ public class BaseTest {
     public void finish () {
         driver.quit();
         driver = null;
-        if ((Utilities.getValueFromJsonConfig("run_location", "config.xml")).equals("local")) LocalDriver.deleteDriver();
+        RunLocationDriver.getInstance().deleteDriver();
     }
 }
